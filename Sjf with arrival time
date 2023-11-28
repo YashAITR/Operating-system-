@@ -1,0 +1,15 @@
+#include<iostream>
+#include<algorithm>
+using namespace std;
+
+struct Process {
+    int id;
+    int bt; // Burst Time
+    int at; // Arrival Time
+};
+
+bool comparisonSJF(Process a, Process b) {
+    return (a.bt < b.bt);
+}
+
+// (Similar functions for waiting time, turnaround time, and average time as FCFS)
