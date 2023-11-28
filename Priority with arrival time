@@ -1,18 +1,18 @@
 #include<iostream>
 #include<algorithm>
+#include<vector>
 using namespace std;
 
 struct Process {
     int id;
     int bt;
-    int priority;
 };
 
 bool comparison(Process a, Process b) {
-    return (a.priority > b.priority);
+    return (a.bt < b.bt);
 }
 
-void findWaitingTime(int processes[], int n, int bt[], int wt[], int priority[]) {
+void findWaitingTime(int processes[], int n, int bt[], int wt[]) {
     wt[0] = 0;
 
     for (int i = 1; i < n ; i++ )
@@ -24,22 +24,32 @@ void findTurnAroundTime(int processes[], int n, int bt[], int wt[], int tat[]) {
         tat[i] = bt[i] + wt[i];
 }
 
-void findPriority(int processes[], int n, int bt[], int priority[]) {
+void findCustomScheduling(int processes[], int n, int bt[]) {
     int wt[n], tat[n];
     Process proc[n];
 
     for (int i = 0; i < n; i++) {
         proc[i].id = processes[i];
         proc[i].bt = bt[i];
-        proc[i].priority = priority[i];
     }
 
     sort(proc, proc + n, comparison);
 
-    findWaitingTime(processes, n, bt, wt, priority);
+    findWaitingTime(processes, n, bt, wt);
     findTurnAroundTime(processes, n, bt, wt, tat);
 
     cout << "Process\tBurst Time\tWaiting Time\tTurnaround Time\n";
 
     for (int i = 0; i < n; i++)
-        cout << proc
+        cout << proc[i].id << "\t\t" << proc[i].bt << "\t\t" << wt[i] << "\t\t" << tat[i] << endl;
+}
+
+int main() {
+    int processes[] = {1, 2, 3};
+    int n = sizeof processes / sizeof processes[0];
+    int burst_time[] = {6, 8, 7};
+
+    findCustomScheduling(processes, n, burst_time);
+
+    return 0;
+}
